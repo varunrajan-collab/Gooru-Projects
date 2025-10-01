@@ -84,7 +84,7 @@
             <div class="w-full bg-gray-200 rounded-full h-2.5">
                 <div id="progress-bar" class="bg-cyan-500 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
             </div>
-            <p id="progress-text" class="text-xs text-gray-500 mt-1 text-right">0 of 5 reflections complete</p>
+            <p id="progress-text" class="text-xs text-gray-500 mt-1 text-right">0 of 7 reflections complete</p>
         </div>
 
         <!-- Intro (Warm-up) -->
@@ -119,58 +119,80 @@
         const REFLECTIONS = [
             {
                 id: 1,
-                title: "Student Engagement",
+                title: "Student Engagement (Agency)",
                 prompt: "Imagine a regular day in your class. How often are your students actively engaged — asking questions, explaining answers, or applying ideas to real life?",
                 followUps: {
-                    "1_2": "It’s great that you’re noticing this. What could make students feel more confident to ask or share — maybe a short group discussion or a simple **‘Think-Pair-Share’**?",
-                    "3": "You’re already creating space for student voice — a good start. What type of questions or activities seem to get them most engaged?",
-                    "4_5": "Wonderful! Encouraging students to ask questions and explain their thinking is at the heart of competency-based learning. Can you think of one more small way to expand this habit?",
+                    "1_2": "It’s great that you’re noticing this. Students need a safe space to share. What is one low-stakes technique, like a **‘Think-Pair-Share’** or a quick *‘Turn-and-Talk’*, that you could use next week to make sharing feel less risky?",
+                    "3": "You’re creating space for student voice—a solid start! To move forward, reflect on the last two lessons: Did student questions mostly lead to deeper learning, or were they about clarifying instructions? What type of question or activity gets them **most engaged**?",
+                    "4_5": "Wonderful! Encouraging students to ask questions and explain their thinking is at the heart of CBE. To expand this, how could you start having students **critique their own work or their peers’ work** based on a specific success criterion?",
                 },
-                task: "🌱 **Try this in your next class:** Give students one chance to explain a concept in their own words. After class, jot down what worked well and what you might improve for next time.",
+                task: "🌱 **Try a low-stakes activity:** In your next class, give students one chance to explain a concept to a peer in their own words. After class, jot down what percentage of students participated willingly and what could improve.",
             },
             {
                 id: 2,
                 title: "Focus on Application",
-                prompt: "When teaching a topic — for example, “Shapes” or “Plants” — how often do you check if students can **apply** what they learn, not just recall it?",
+                prompt: "When teaching a topic (e.g., “Measurements” or “Plant Life”), how often do you check if students can **apply** what they learn to a new, real-life scenario, not just recall it?",
                 followUps: {
-                    "1_2": "That’s honest — application often takes extra planning. What is one simple way you could let students practice what they’ve learned?",
-                    "3": "Good! You sometimes include application. Could you think of one small activity where students apply their knowledge next week?",
-                    "4_5": "Excellent! You focus on application — this helps build real understanding. What’s one additional real-life connection you could try?",
+                    "1_2": "That’s honest—application requires intentional planning. To start small, think of the upcoming topic. What is **one simple real-world item or problem** you could bring into the classroom to let students immediately practice what they’ve learned?",
+                    "3": "Good! You sometimes include application. The next step is making it a habit. Could you identify one lesson next week where you will replace a **recall question with an application task**? For example, instead of ‘What is a square?’, ask ‘Find two square objects in this room.’",
+                    "4_5": "Excellent! You focus on application, which builds real understanding. To push this further, think about **community connections**. What is one additional real-life or local connection you could use to make the concept relevant to their home life or neighborhood?",
                 },
-                task: "🌱 **Design one short activity or question** where students apply a concept. Examples: measure something in the classroom, sort items, or explain a plant part in their own words.",
+                task: "🌱 **Design an application task:** Choose a concept for your next lesson and design one short activity where students apply it practically. Examples: measure a classroom object, sort local items based on properties, or use local language to describe a plant part.",
             },
             {
                 id: 3,
-                title: "Using Student Responses",
-                prompt: "After students complete an activity or share answers, how often do you use their responses to **adjust your next lesson**?",
+                title: "Using Student Responses (Feedback Loop)",
+                prompt: "After students complete an activity or share answers, how often do you use their responses to **adjust your next lesson’s content or pace**?",
                 followUps: {
-                    "1_2": "It’s okay! Even noticing patterns in responses is a start. What could help you capture key insights next time?",
-                    "3": "Good! You sometimes use feedback. Could you note one key observation after each lesson to guide the next one?",
-                    "4_5": "Fantastic! You are responsive to student learning. How could you take this further — maybe by planning a small follow-up activity?",
+                    "1_2": "It's a great start just noticing patterns in responses. The goal is to make these patterns guide your instruction. For your next lesson, what could help you capture key insights efficiently, such as a **quick 3-question exit slip** or a small notebook to jot down common errors?",
+                    "3": "Good! You sometimes use feedback. Try to formalize this process. Could you dedicate 5 minutes after each lesson to note **one key observation** (a common mistake or a success story) that will *directly* guide your planning for the following day?",
+                    "4_5": "Fantastic! You are responsive to student learning. How could you take this further—perhaps by planning a **small follow-up activity** during the next class that explicitly targets the single, most common misconception you observed?",
                 },
-                task: "🌱 **After your next lesson, write one sentence** on what you will adjust based on student responses. Keep it short — just one clear insight.",
+                task: "🌱 **Actionable Insight:** After your next lesson, write one single sentence on what you will adjust based on student responses. Keep it short—just one clear, instructional insight (e.g., 'Need to re-teach subtraction with borrowing').",
             },
             {
                 id: 4,
                 title: "Connecting to Learning Outcomes",
-                prompt: "How often do you clearly define what **success looks like** for your students *before* planning a lesson?",
+                prompt: "How often do you clearly define what **success looks like** for your students (the specific learning outcome) *before* planning any activity or lesson?",
                 followUps: {
-                    "1_2": "Many teachers start this way. Try picking one clear outcome for your next lesson — it helps focus planning.",
-                    "3": "Good! You sometimes define outcomes. Could you break it down into 1–2 small skills or knowledge points?",
-                    "4_5": "Great! Clear learning outcomes guide every activity. How could you link an activity directly to the outcome next time?",
+                    "1_2": "Many teachers start with content. Try shifting your focus to the outcome first. Pick one clear, measurable outcome for your next lesson (e.g., 'Students can identify three types of leaves')—it helps focus planning and assessment.",
+                    "3": "Good! You sometimes define outcomes. To ensure alignment with CBE, could you break that outcome down into **1–2 small, observable skills or knowledge points**? (e.g., 'Skill 1: Match leaf to tree. Skill 2: Describe leaf shape.')",
+                    "4_5": "Great! Clear learning outcomes guide every activity. How could you link an activity *directly* to the outcome next time—perhaps by **sharing the success criteria with students** at the beginning of the lesson so they know exactly what they need to achieve?",
                 },
-                task: "🌱 **Take the learning outcome for your next lesson** and break it into 1–2 small skills or knowledge points. Plan one activity for each.",
+                task: "🌱 **Deconstruct the Outcome:** Take the learning outcome for your next lesson and break it into 1–2 small, measurable skills or knowledge points. Plan one targeted activity for each point.",
             },
             {
                 id: 5,
-                title: "Thematic Planning",
-                prompt: "If you were teaching a topic like “Water” or “Seasons,” how often do you select a theme that makes lessons **meaningful and relatable**?",
+                title: "Thematic Planning (Relatability)",
+                prompt: "If you were teaching a topic like “Water” or “Seasons,” how often do you select a theme that makes lessons **meaningful and highly relatable** to the students' local context?",
                 followUps: {
-                    "1_2": "No worries! Themes can make lessons engaging. Think of one simple theme from students’ daily life for the next topic.",
-                    "3": "Good start. Could you list 2 ways to connect lessons or activities to a chosen theme?",
-                    "4_5": "Excellent! Themes help students see connections. How could you make the theme even more relevant to their local context?",
+                    "1_2": "No worries! Themes can dramatically increase engagement. Think of one simple, accessible theme from students’ daily life (e.g., 'Our Local Market' or 'My Family Garden') for the next topic and see how you can connect your concepts to it.",
+                    "3": "Good start. You understand the value of connection. Could you list 2-3 specific ways you will connect lessons or activities to the chosen theme next week? For instance, 'Use market price examples for math problems' and 'Draw locally grown vegetables for art.'",
+                    "4_5": "Excellent! You focus on making learning relevant. To deepen this, how could you make the theme even more relevant by **inviting a community member** (like a local farmer or artisan) to briefly share their knowledge, linking the curriculum directly to local wisdom?",
                 },
-                task: "🌱 **Choose a theme for your next topic** and list two simple ways to connect lessons or activities to it. Use local examples if possible.",
+                task: "🌱 **Local Connection:** Choose a theme for your next topic and list two simple ways to connect lessons or activities to it. Use local examples or resource people if possible.",
+            },
+            {
+                id: 6,
+                title: "Assessment for Learning (AFL)",
+                prompt: "How often do you use quick, informal checks (like **thumbs up/down**, mini whiteboards, or simple **exit tickets**) *during* the lesson to gauge student understanding and instantly adjust?",
+                followUps: {
+                    "1_2": "It's natural to rely on formal tests, but quick checks are critical in CBE. What is one **zero-prep, non-writing strategy** (like a 'traffic light' system: Red=Confused, Green=Ready) you can commit to using at least twice in your next 40-minute lesson?",
+                    "3": "You're already incorporating quick checks—that's great. How often do you use the information to genuinely **change the next 5 minutes of instruction**? For example, seeing mostly 'yellow' responses and immediately deciding to run one more example on the board.",
+                    "4_5": "Fantastic! Using AFL for instant adjustment is a strong practice. To make it systematic, how could you **record the results** of one specific check (e.g., which students struggled with the 'thumbs down') and use it to group students for a targeted mini-revision at the start of the next day?",
+                },
+                task: "🌱 **Implement one AFL tool:** Prepare a set of three simple True/False questions related to your next lesson's core concept. Use a 'thumbs up' for true and 'thumbs down' for false halfway through the lesson, and adjust your teaching immediately based on the majority response.",
+            },
+            {
+                id: 7,
+                title: "Differentiated Instruction",
+                prompt: "When planning an activity, how often do you prepare different options or levels of challenge (**e.g., giving advanced students a challenge or providing scaffolding for struggling students**)?",
+                followUps: {
+                    "1_2": "Differentiation takes time, but it ensures no student is left behind or bored. To start small, pick one activity next week. Can you prepare one **‘fast finisher’ extension task** for your most advanced students?",
+                    "3": "You sometimes differentiate, which shows commitment to student needs. For the next unit, can you identify two specific students—one who needs **extra support** and one who needs **more challenge**—and plan a *single* modified question or resource for each of them?",
+                    "4_5": "Excellent! You are meeting students where they are. To make differentiation routine, how could you set up a **‘choice board’** (3–4 activities, all leading to the same outcome) where students can select the activity that best suits their learning style or pace?",
+                },
+                task: "🌱 **Create a tiered challenge:** For your next practice session, design three versions of the same task: **Level 1 (Simplified)**, **Level 2 (Standard)**, and **Level 3 (Challenge)**. Allow students to pick their starting point.",
             },
         ];
 
@@ -183,10 +205,14 @@
 
         // Function to render the reflection items
         function renderReflections() {
-            reflectionsList.innerHTML = REFLECTIONS.map(r => `
+            reflectionsList.innerHTML = REFLECTIONS.map(r => {
+                // FIX: Apply markdown conversion to the prompt text here
+                const formattedPrompt = r.prompt.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                return `
                 <div id="reflection-${r.id}" class="reflection-card bg-white p-6 rounded-xl">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Reflection ${r.id}: ${r.title}</h3>
-                    <p class="text-gray-600 mb-4">${r.prompt} <span class="font-bold">(1 = Never, 5 = Always)</span></p>
+                    <p class="text-gray-600 mb-4">${formattedPrompt} <span class="font-bold">(1 = Never, 5 = Always)</span></p>
 
                     <div class="flex space-x-2 mb-4 justify-center sm:justify-start">
                         ${[1, 2, 3, 4, 5].map(rating => `
@@ -207,7 +233,11 @@
                         <div class="task-box p-3 rounded-lg text-sm text-green-800 font-medium" id="task-${r.id}"></div>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
+            
+            // Update initial progress text for 7 reflections
+            progressText.textContent = `0 of ${REFLECTIONS.length} reflections complete`;
         }
         
         // Function to update the progress bar
@@ -269,7 +299,7 @@
             const taskElement = document.getElementById(`task-${id}`);
             const feedbackDiv = document.getElementById(`feedback-${id}`);
 
-            // Replace ** with <strong> for follow-up text
+            // Apply markdown conversion for follow-up text and task
             followUpElement.innerHTML = reflection.followUps[followUpKey].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); 
             taskElement.innerHTML = reflection.task.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
@@ -301,15 +331,15 @@
             let personalizedComment = "";
 
             if (averageScore <= 2.5) {
-                personalizedComment = "You've identified several areas for growth, which is a fantastic first step! Focusing on one small action, like the 'Think-Pair-Share' technique or defining one clear learning outcome, will lead to meaningful change.";
+                personalizedComment = "You've identified several areas for growth, which is a fantastic first step! Focusing on one small action from your tasks, like the 'Think-Pair-Share' technique or defining one clear learning outcome, will lead to meaningful change.";
             } else if (averageScore < 4) {
-                personalizedComment = "Your reflection shows a solid foundation! You've already incorporated several effective practices. Keep building on this by consistently using student feedback to adjust your next lesson and looking for more real-life application examples.";
+                personalizedComment = "Your reflection shows a solid foundation! You've already incorporated several effective practices. Keep building on this by consistently using Assessment for Learning (AFL) and looking for more opportunities to differentiate instruction.";
             } else {
-                personalizedComment = "Excellent work! Your responses highlight a strong alignment with competency-based habits—engaging learners, checking understanding, and connecting lessons to clear outcomes. Focus on those 'one more small way' extension ideas to elevate your planning.";
+                personalizedComment = "Excellent work! Your responses highlight a strong alignment with core competency-based habits—engaging learners, checking understanding, and connecting lessons to clear outcomes. Focus on those 'one more small way' extension ideas to elevate your planning.";
             }
 
             // Define the core summary message with markdown
-            const coreSummary = `Overall, you’ve already shown several great competency-based habits related to **engaging learners**, checking **application**, adjusting based on **feedback**, and connecting lessons to clear **outcomes** and **themes**. Small actions, like adding one application activity or using a local theme, will make your planning even stronger.`;
+            const coreSummary = `Overall, you’ve already shown several great competency-based habits related to **student agency**, checking **application**, adjusting based on **feedback**, connecting lessons to clear **outcomes** and **themes**, and practicing **AFL** and **differentiation**. Small actions from your tasks will make your planning even stronger.`;
 
             // Combine personalized comment and core summary, applying markdown conversion to the core summary
             const fullSummaryHTML = `
