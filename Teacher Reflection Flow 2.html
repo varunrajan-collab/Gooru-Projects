@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Reflection: CBE & Outcomes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+            border-bottom: 2px solid #007BFF;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #007BFF;
+            margin-top: 30px;
+        }
+        .reflection-block {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #e9f0f6;
+        }
+        .prompt-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .rating-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 10px 0;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .rating-options label {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px dashed #007BFF;
+            border-radius: 5px;
+            background-color: #ffffff;
+            /* Initially hide feedback, JS would show it */
+            /* display: none; */
+        }
+        .task {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        .intro, .wrap-up {
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+        .wrap-up {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Interactive Reflection Flow: CBE & Learning Outcomes</h1>
+    
+    <div class="intro">
+        <h2>🔹 Intro (Warm-up)</h2>
+        <p>👋 Hi! Before we dive into Competency-Based Education (CBE), let’s take a moment to reflect on your classroom practices. There are no right or wrong answers—this is just a space to think about what you already do and explore small ways to strengthen your teaching by focusing on **clear learning outcomes**.</p>
+    </div>
+
+    <div class="reflection-block" id="reflection1">
+        <h2>🔹 Reflection 1: Defining the 'Destination'</h2>
+        <div class="prompt-text">
+            When you start planning a lesson, how often do you clearly define the specific **Learning Outcome** (the skill or knowledge students must master) before you decide on the activities? (1 = Never, 5 = Always)
+        </div>
+        <div class="rating-options">
+            <label><input type="radio" name="r1" value="1"> 1 (Never)</label>
+            <label><input type="radio" name="r1" value="2"> 2</label>
+            <label><input type="radio" name="r1" value="3"> 3</label>
+            <label><input type="radio" name="r1" value="4"> 4</label>
+            <label><input type="radio" name="r1" value="5"> 5 (Always)</label>
+        </div>
+        
+        <div class="feedback" id="feedback1">
+            <p><strong>Feedback (1-2):</strong> It’s okay! Try this: For your next lesson, pick just **one clear outcome** (e.g., "Students will be able to sort objects by color"). It helps focus all your planning.</p>
+            <p><strong>Feedback (4-5):</strong> Fantastic! Clear learning outcomes are the foundation of CBE. How could you ensure that **every single activity** in your lesson directly leads the student toward achieving that specific outcome?</p>
+        </div>
+        <div class="task">
+            🌱 **Post-Reflection Task:** Write down the Learning Outcome for your next lesson starting with "Students will be able to..." Break this outcome into **two small, clear performance points**.
+        </div>
+    </div>
+
+    <div class="reflection-block" id="reflection2">
+        <h2>🔹 Reflection 2: Student Voice and Engagement</h2>
+        <div class="prompt-text">
+            Imagine a regular day. How often are your students actively engaged—**asking questions, explaining answers in their own words**, or applying ideas to real life? (1 = Never, 5 = Always)
+        </div>
+        <div class="rating-options">
+            <label><input type="radio" name="r2" value="1"> 1 (Never)</label>
+            <label><input type="radio" name="r2" value="2"> 2</label>
+            <label><input type="radio" name="r2" value="3"> 3</label>
+            <label><input type="radio" name="r2" value="4"> 4</label>
+            <label><input type="radio" name="r2" value="5"> 5 (Always)</label>
+        </div>
+        <div class="feedback" id="feedback2">
+            <p><strong>Feedback (1-2):</strong> It’s great that you’re noticing this. What could make students feel more confident to ask or share—maybe a short group discussion or a simple ‘Think-Pair-Share’?</p>
+            <p><strong>Feedback (4-5):</strong> Wonderful! Encouraging students to explain their thinking is at the heart of competency-based learning. Can you think of **one more small way** to expand this habit?</p>
+        </div>
+        <div class="task">
+            🌱 **Post-Reflection Task:** Try this: Give students one chance to **explain a concept in their own words** to a peer. After class, jot down what worked well and what you might improve.
+        </div>
+    </div>
+
+    <div class="reflection-block" id="reflection3">
+        <h2>🔹 Reflection 3: Focus on Application (CBE Core)</h2>
+        <div class="prompt-text">
+            When teaching a topic (like "Shapes" or "Plants"), how often do you check if students can **apply** what they learn, not just recall it? (1 = Never, 5 = Always)
+        </div>
+        <div class="rating-options">
+            <label><input type="radio" name="r3" value="1"> 1 (Never)</label>
+            <label><input type="radio" name="r3" value="2"> 2</label>
+            <label><input type="radio" name="r3" value="3"> 3</label>
+            <label><input type="radio" name="r3" value="4"> 4</label>
+            <label><input type="radio" name="r3" value="5"> 5 (Always)</label>
+        </div>
+        <div class="feedback" id="feedback3">
+            <p><strong>Feedback (3):</strong> Good! You sometimes include application. Could you think of **one small activity** where students apply their knowledge next week? (E.g., measure something, sort items, or explain a concept's use in daily life.)</p>
+            <p><strong>Feedback (4-5):</strong> Excellent! You focus on application—this helps build real understanding. What's **one additional real-life connection** you could try?</p>
+        </div>
+        <div class="task">
+            🌱 **Post-Reflection Task:** Design one short question or activity where students **apply a concept** (not just recall it).
+        </div>
+    </div>
+
+    <div class="reflection-block" id="reflection4">
+        <h2>🔹 Reflection 4 (NEW): Thematic Planning and Local Relevance</h2>
+        <div class="prompt-text">
+            When introducing a topic (like "Water" or "Seasons"), how often do you select a theme or use **local, relatable examples** that make the lessons meaningful to your students' lives? (1 = Never, 5 = Always)
+        </div>
+        <div class="rating-options">
+            <label><input type="radio" name="r4" value="1"> 1 (Never)</label>
+            <label><input type="radio" name="r4" value="2"> 2</label>
+            <label><input type="radio" name="r4" value="3"> 3</label>
+            <label><input type="radio" name="r4" value="4"> 4</label>
+            <label><input type="radio" name="r4" value="5"> 5 (Always)</label>
+        </div>
+        <div class="feedback" id="feedback4">
+            <p><strong>Feedback (1-2):</strong> No worries! Themes can make lessons engaging. Think of **one simple theme from students’ daily life** (e.g., 'The Village Market' for Maths) for the next topic.</p>
+            <p><strong>Feedback (3):</strong> Good start. Could you **list 2 ways** to connect lessons or activities to a chosen theme, using **local names/places**?</p>
+            <p><strong>Feedback (4-5):</strong> Excellent! Themes help students see connections. How could you make the theme even more relevant by having students **collect local information** related to it (e.g., local seasonal changes)?</p>
+        </div>
+        <div class="task">
+            🌱 **Post-Reflection Task:** Choose a theme for your next topic and **list two simple ways** to connect lessons or activities to it. Use local examples if possible.
+        </div>
+    </div>
+    
+    <div class="reflection-block" id="reflection5">
+        <h2>🔹 Reflection 5 (NEW): Focus on Holistic Development</h2>
+        <div class="prompt-text">
+            How often does your lesson planning deliberately include activities that go beyond academics (e.g., **teamwork, communication, emotional regulation, or creative expression**)? (1 = Never, 5 = Always)
+        </div>
+        <div class="rating-options">
+            <label><input type="radio" name="r5" value="1"> 1 (Never)</label>
+            <label><input type="radio" name="r5" value="2"> 2</label>
+            <label><input type="radio" name="r5" value="3"> 3</label>
+            <label><input type="radio" name="r5" value="4"> 4</label>
+            <label><input type="radio" name="r5" value="5"> 5 (Always)</label>
+        </div>
+        <div class="feedback" id="feedback5">
+            <p><strong>Feedback (1-2):</strong> It can be hard to fit these in! Try integrating just **one non-academic skill** into your next academic activity (e.g., "The team that communicates best wins the quiz").</p>
+            <p><strong>Feedback (3):</strong> You're including non-academic skills sometimes. Could you make a brief note in your plan for **which life skill** each activity addresses (e.g., 'Group discussion = Collaboration')?</p>
+            <p><strong>Feedback (4-5):</strong> Fantastic! This holistic approach is central to the NCF. How could you give students a chance to **self-reflect on the life skill** they used (e.g., "Tell me one way your team showed good listening")?</p>
+        </div>
+        <div class="task">
+            🌱 **Post-Reflection Task:** For your next group activity, write down one **non-academic skill** (like teamwork or sharing) you want to see. After the activity, spend 2 minutes asking students to reflect on *how* they used that skill.
+        </div>
+    </div>
+    
+    <div class="wrap-up">
+        <h2>🔹 Wrap-Up Summary</h2>
+        <p>🌼 You’ve already shown several competency-based habits—engaging learners, checking understanding, connecting lessons to clear outcomes, and using themes. Small actions, like adding one application activity or focusing on a non-academic skill, will make your planning even stronger. Keep reflecting and trying these small steps—they help make learning meaningful for your students!</p>
+    </div>
+
+    </div>
+
+</body>
+</html>
