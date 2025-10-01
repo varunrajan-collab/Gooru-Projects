@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Teacher Reflection Flow</title>
+    <!-- 
+        This page automatically redirects the user to the main application file.
+        We use JavaScript here for a clean, immediate redirect, which is often 
+        more reliable than just the meta refresh tag.
+    -->
+    <script>
+        // Use the location object to redirect to the main application file.
+        // This assumes reflection_flow.html is in the same directory as index.html.
+        window.location.replace("reflection_flow.html");
+    </script>
+    
+    <!-- Fallback redirect in case JavaScript is disabled -->
+    <meta http-equiv="refresh" content="0; url=reflection_flow.html">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fcfcfc;
+            color: #4a5568;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #06b6d4; /* Cyan color */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="loader"></div>
+        <p>Redirecting you to the Teacher Reflection Flow...</p>
+        <p class="text-sm mt-3">If you are not redirected automatically, please click <a href="reflection_flow.html" style="color: #06b6d4; text-decoration: underline;">here</a>.</p>
+    </div>
+</body>
+</html>
