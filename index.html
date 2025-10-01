@@ -4,19 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting to Teacher Reflection Flow</title>
-    <!-- 
-        This page automatically redirects the user to the main application file.
-        We use JavaScript here for a clean, immediate redirect, which is often 
-        more reliable than just the meta refresh tag.
-    -->
     <script>
-        // Use the location object to redirect to the main application file.
-        // This assumes reflection_flow.html is in the same directory as index.html.
-        window.location.replace("reflection_flow.html");
+        // Redirect to the Teacher Reflection Flow file
+        window.location.replace("Teacher Reflection Flow.html");
     </script>
     
     <!-- Fallback redirect in case JavaScript is disabled -->
-    <meta http-equiv="refresh" content="0; url=reflection_flow.html">
+    <meta http-equiv="refresh" content="0; url=Teacher Reflection Flow.html">
     
     <style>
         body {
@@ -38,7 +32,7 @@
         }
         .loader {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #06b6d4; /* Cyan color */
+            border-top: 4px solid #06b6d4;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -56,7 +50,7 @@
     <div class="container">
         <div class="loader"></div>
         <p>Redirecting you to the Teacher Reflection Flow...</p>
-        <p class="text-sm mt-3">If you are not redirected automatically, please click <a href="reflection_flow.html" style="color: #06b6d4; text-decoration: underline;">here</a>.</p>
+        <p style="font-size: 0.875rem; margin-top: 1rem;">If you are not redirected automatically, please click <a href="Teacher Reflection Flow.html" style="color: #06b6d4; text-decoration: underline;">here</a>.</p>
     </div>
 </body>
 </html>
