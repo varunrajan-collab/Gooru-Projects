@@ -3,54 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to Teacher Reflection Flow</title>
-    <script>
-        // Redirect to the Teacher Reflection Flow main file
-        window.location.replace("Teacher%20Reflection%20Flow/Teacher%20Reflection%20Flow.html");
-    </script>
-    
-    <!-- Fallback redirect in case JavaScript is disabled -->
-    <meta http-equiv="refresh" content="0; url=Teacher%20Reflection%20Flow/Teacher%20Reflection%20Flow.html">
+    <title>Teacher Professional Development Projects</title>
     
     <style>
         body {
             font-family: 'Inter', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #fcfcfc;
-            color: #4a5568;
+            background-color: #f4f7f9;
+            color: #333;
         }
         .container {
             text-align: center;
-            padding: 2rem;
-            border-radius: 0.75rem;
+            padding: 3rem;
+            border-radius: 10px;
             background-color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
         }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #06b6d4;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 1rem auto;
+        h1 {
+            color: #007BFF;
+            margin-bottom: 2rem;
+            font-size: 2em;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .project-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .project-list li {
+            margin-bottom: 15px;
+        }
+        .project-list a {
+            display: block;
+            padding: 15px 20px;
+            background-color: #e9f0f6;
+            color: #007BFF;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: 600;
+            font-size: 1.1em;
+            border: 1px solid #d4edff;
+        }
+        .project-list a:hover {
+            background-color: #d4e3f6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <div class="loader"></div>
-        <p>Redirecting you to the Teacher Reflection Flow...</p>
-        <p style="font-size: 0.875rem; margin-top: 1rem;">If you are not redirected automatically, please click <a href="Teacher%20Reflection%20Flow/Teacher%20Reflection%20Flow.html" style="color: #06b6d4; text-decoration: underline;">here</a>.</p>
+        <h1>Teacher PD Reflection Flows 📝</h1>
+        <p>Please select the reflection module you wish to explore:</p>
+        
+        <ul class="project-list">
+            <li>
+                <a href="Teacher%20Reflection%20Flow/Teacher%20Reflection%20Flow.html">
+                    Module 1: Reflection Flow (Initial Version)
+                </a>
+            </li>
+            <li>
+                <a href="Teacher%20Reflection%20Flow/Teacher%20Reflection%20Flow%202.html">
+                    Module 2: Reflection Flow (Updated & Expanded)
+                </a>
+            </li>
+        </ul>
+        
+        <p style="font-size: 0.875rem; margin-top: 2rem; color: #6c757d;">*Ensure both HTML files are located in a subfolder named 'Teacher Reflection Flow'.</p>
     </div>
 </body>
 </html>
