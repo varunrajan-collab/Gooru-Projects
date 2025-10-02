@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Reflection Flow: CBE & Learning Outcomes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfcfc; /* Soft Off-White Background */
+        }
+        .reflection-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease-out;
+            border-left: 8px solid #06b6d4; /* Cyan 500 accent border */
+            scroll-margin-top: 20px;
+        }
+        .reflection-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .reflection-card.completed {
+            border-left-color: #4ade80; /* Vibrant Green 400 for completed cards */
+            opacity: 0.6; /* Slight fade when complete and hidden to show progress */
+            pointer-events: none; /* Disable interaction */
+        }
+        .rating-button {
+            transition: transform 0.15s ease-out, background-color 0.15s, box-shadow 0.15s;
+            transform: scale(0.95);
+        }
+        .rating-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .rating-button.selected {
+            background-color: #4ade80; /* Vibrant Green 400 for selected */
+            color: white;
+            border-color: #22c55e;
+            transform: scale(1.05);
+        }
+        /* Custom styles for the 3 diagnostic questions */
+        .diagnostic-options {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        .diagnostic-option {
+            transition: background-color 0.2s;
+            border: 1px solid #d1d5db;
+        }
+        .diagnostic-option:hover {
+            background-color: #f3f4f6;
+        }
+        .diagnostic-option.selected {
+            background-color: #d1fae5; /* Light Green */
+            border-color: #34d399; /* Medium Green */
+            font-weight: 600;
+        }
+
+        .task-box {
+            background-color: #f0fdf4; /* Lightest Mint Green background */
+            border: 1px solid #dcfce7;
+        }
+        /* Styling for the animated feedback area */
+        .feedback-area {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease-out, max-height 0.7s ease-out, padding 0.5s;
+            padding: 0 1rem;
+            background-color: #f5f3ff; /* Light Violet/Purple 50 background */
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+        .feedback-area.visible {
+            opacity: 1;
+            max-height: 1000px; /* Increased max-height for diagnostic section */
+            padding: 1rem;
+        }
+        /* Custom styling for a vibrant reflection container */
+        .reflection-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        /* Styling for single question visibility */
+        .question-wrapper {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        .question-wrapper.hidden {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .question-wrapper.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="reflection-container">
+
+        <!-- Header -->
+        <header class="text-center mb-10 p-4 bg-white rounded-xl shadow-lg border-b-4 border-cyan-500">
+            <h1 class="text-3xl font-bold text-gray-800 mb-1">Interactive Reflection Flow</h1>
+            <p class="text-md text-cyan-600 font-semibold">
+                Lesson Competency: Understanding Curricular Goals, CBE, and Learning Outcomes
+            </p>
+        </header>
+        
+        <!-- Progress Bar (New Feature) -->
+        <div class="mb-8 p-4 bg-white rounded-xl shadow-md border border-gray-100">
+            <h3 class="text-sm font-semibold text-gray-700 mb-2">Your Progress</h3>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div id="progress-bar" class="bg-cyan-500 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+            </div>
+            <p id="progress-text" class="text-xs text-gray-500 mt-1 text-right">0 of 7 reflections complete</p>
+        </div>
+
+        <!-- Intro (Warm-up) -->
+        <div class="mb-10 p-6 bg-amber-50 rounded-xl border border-amber-200">
+            <h2 class="text-xl font-bold text-amber-700 mb-3">👋 Let's Get Started!</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Hi! Before we dive into competency-based education, let’s take a moment to reflect on your classroom practices. This flow will adapt to your answers, guiding you through personalized steps. There are no right or wrong answers. First, click on a number (1-5) to reflect on the scenario, then answer the follow-up diagnostic questions!
+            </p>
+        </div>
+
+        <!-- Reflection Sections will be injected here -->
+        <div id="reflections-list" class="space-y-8">
+            <!-- Content generated by JS -->
+        </div>
+
+        <!-- Wrap-Up Summary (Initially hidden) -->
+        <div id="wrap-up-summary" class="hidden mt-12 p-8 bg-emerald-100 rounded-xl border-t-8 border-emerald-500 shadow-xl">
+            <h2 class="text-2xl font-bold text-emerald-800 mb-4 flex items-center">
+                <span class="mr-2 text-3xl">🌼</span> Your Reflection Summary
+            </h2>
+            <p id="summary-text" class="text-gray-700 leading-relaxed text-lg">
+                <!-- Summary text injected here -->
+            </p>
+            <p class="mt-4 text-sm text-emerald-600 font-medium">
+                Keep reflecting and trying these small steps — they help make learning meaningful for your students!
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Total number of core reflection steps (7 core scenarios are mandatory)
+        const TOTAL_CORE_STEPS = 7; 
+        
+        // --- REFLECTION STRUCTURE ---
+        // Each object is a CORE SCENARIO (7 total).
+        // The 'diagnostic' section holds the 3 follow-up questions for deeper understanding.
+        const REFLECTIONS = [
+            // ----------------------------------------------------
+            // CORE SCENARIO 1: Goal Clarity & Planning (User Q1)
+            // ----------------------------------------------------
+            {
+                id: 1,
+                title: "Goal Clarity & Planning",
+                coreArea: "Lesson Planning",
+                prompt: "I start planning my lessons with a clear idea of what I want students to be able to **do** by the end.",
+                diagnostic: {
+                    q1: "What is the **main barrier** to establishing a clear learning goal before you start planning?",
+                    q2: "When you start planning a new lesson, where do you **usually focus your energy first**?",
+                    q3: "How confident are you in translating broad curriculum topics into **student-friendly learning outcomes**?",
+                    
+                    options: [
+                        // Option Set A (1-2) - Low Clarity
+                        { 
+                            key: "a1", 
+                            q1_options: ["I feel rushed to move on, so I start with the first activity.", "I find the curriculum goals too vague to be useful for daily planning.", "I prefer being flexible and seeing where the lesson goes."],
+                            q2_options: ["Reading the next page/section in the textbook.", "Finding appropriate resources or materials.", "Reviewing past assessment results from the previous unit."],
+                            q3_options: ["Not confident; my goals are often unclear to students too.", "I can do it for knowledge but not for skills (e.g., critical thinking).", "I don't think to share the goal with students beforehand."],
+                        },
+                        // Option Set B (3) - Moderate Clarity
+                        { 
+                            key: "b1", 
+                            q1_options: ["It takes too much time and preparation.", "The topic is complex, and I'm unsure which concept to prioritize.", "I usually check the curriculum goal, but don't refine it into a single student-friendly outcome."],
+                            q2_options: ["Drafting the main activity or worksheet.", "Planning the structure of the introduction and conclusion.", "Creating an end-of-lesson assessment tool (like an exit ticket)."],
+                            q3_options: ["Moderately confident; I can usually articulate the goal, but not always the criteria.", "I can write the goal, but struggle to keep all activities aligned to it.", "I struggle to write goals that involve 'application' or 'analysis.'"],
+                        },
+                        // Option Set C (4-5) - High Clarity
+                        { 
+                            key: "c1", 
+                            q1_options: ["Nothing is a barrier; defining the goal is the first step.", "The only difficulty is finding time to invite guest speakers.", "It requires extra planning time, but the payoff is worth it."],
+                            q2_options: ["Writing the measurable learning goal on the board or in my lesson plan.", "Designing the quick formative check (AFL) that ends the lesson.", "Planning for differentiation for both struggling and excelling students."],
+                            q3_options: ["Highly confident; this is a non-negotiable part of my planning.", "I regularly source materials directly from the community.", "I design activities that explicitly celebrate local heritage."],
+                        },
+                    ]
+                },
+                task: "🌱 **Actionable Task:** For your next lesson, summarize the goal in one sentence: 'By the end of this lesson, students will be able to...' and write it on the board.",
+            },
+            // ----------------------------------------------------
+            // CORE SCENARIO 2: Skill-Based Activity Design (User Q2)
+            // ----------------------------------------------------
+            {
+                id: 2,
+                title: "Skill-Based Activity Design",
+                coreArea: "Skill Practice (Problem-Solving)",
+                prompt: "I plan activities that help students **practice skills** like problem-solving, communication, or critical thinking, not just memorize facts.",
+                diagnostic: {
+                    q1: "What is the **main reason** you sometimes rely on memory-based tasks (recall) over skill-based tasks (analysis)?",
+                    q2: "When designing a skill-based activity, what part of the preparation do you find **most challenging**?",
+                    q3: "How do you define **'problem-solving'** in the context of your primary subject?",
+                    
+                    options: [
+                        // Option Set A (1-2) - Low Skill Focus
+                        { 
+                            key: "a2", 
+                            q1_options: ["It's easier to assess recall tasks.", "I worry skill-based tasks take up too much lesson time.", "The textbook only provides recall questions."],
+                            q2_options: ["Creating a situation that genuinely requires problem-solving.", "Finding time to listen to every small group and provide individualized feedback.", "Creating a clear grading rubric for soft skills."],
+                            q3_options: ["Solving the problem correctly using the steps taught.", "Finding the right answer.", "Recalling the steps needed to solve a specific problem type."],
+                        },
+                        // Option Set B (3) - Moderate Skill Focus
+                        { 
+                            key: "b2", 
+                            q1_options: ["I use skill tasks sometimes, but only for simple topics.", "I struggle to link skill tasks directly to the curriculum outcomes.", "My students lack the confidence for open-ended challenges."],
+                            q2_options: ["Ensuring the activity is challenging enough for advanced students.", "Setting up the classroom for effective group discussion.", "Translating the skill into student-friendly instructions."],
+                            q3_options: ["Applying the concept to a new, but simple scenario.", "Breaking down a complex task into smaller steps.", "Working effectively with a partner."],
+                        },
+                        // Option Set C (4-5) - High Skill Focus
+                        { 
+                            key: "c2", 
+                            q1_options: ["I believe skills are more important than recall for long-term mastery.", "I only use recall tasks as a short warm-up activity.", "I find skill tasks more engaging to teach."],
+                            q2_options: ["Ensuring all materials needed for the complex task are ready.", "Preparing extension challenges for students who finish the main task quickly.", "Managing the productive chaos that comes with active skill practice."],
+                            q3_options: ["Designing a new process or solution to an unknown problem.", "Debating different perspectives on a topic.", "Critically evaluating information sources."],
+                        },
+                    ]
+                },
+                task: "🌱 **Actionable Task:** Take one concept from your next lesson and create a single task that starts with the phrase: 'Using this information, design a solution for...'",
+            },
+            // ----------------------------------------------------
+            // CORE SCENARIO 3: Student Agency & Voice (User Q3)
+            // ----------------------------------------------------
+            {
+                id: 3,
+                title: "Student Agency & Voice",
+                coreArea: "Student Agency",
+                prompt: "My students are actively engaged in lessons (asking questions, explaining answers, applying knowledge) without always needing to be prompted by me.",
+                diagnostic: {
+                    q1: "What do you feel is the **main barrier** when inviting students to explain or ask questions?",
+                    q2: "How would you describe the general **emotional tone** of your classroom during a lesson?",
+                    q3: "What prevents you from allowing more time for student-led discussions or Q&A?",
+                    
+                    options: [
+                        // Option Set A (1-2) - Low Agency
+                        { 
+                            key: "a3", 
+                            q1_options: ["Fear of failure or being corrected publicly.", "They don't know *how* to explain their thinking yet.", "Language barrier or shyness."],
+                            q2_options: ["Quiet and disciplined, but passive/reserved.", "Restless and easily distracted.", "Focused on individual competition."],
+                            q3_options: ["I worry it will take up too much time needed for the current lesson.", "I worry the discussion will stray from the topic.", "I prefer giving my own detailed explanation."],
+                        },
+                        // Option Set B (3) - Moderate Agency
+                        { 
+                            key: "b3", 
+                            q1_options: ["They need specific prompts to know exactly how to start sharing.", "They only talk when prompted directly.", "Lack of clear consequence for non-participation."],
+                            q2_options: ["Generally cooperative, but easily distracted or passive.", "Active in small bursts, then return to quiet work.", "Focused on getting the right answer quickly."],
+                            q3_options: ["The topic is complex, and I'm unsure which concept to prioritize.", "I sometimes forget to factor in time for questions.", "It's challenging to manage large group discussions."],
+                        },
+                        // Option Set C (4-5) - High Agency
+                        { 
+                            key: "c3", 
+                            q1_options: ["Nothing holds them back; managing time/noise from participation is the challenge.", "They prefer explaining to me, not to peers.", "They often rush their explanations."],
+                            q2_options: ["Energetic and curious, sometimes leading to productive chaos.", "Challenged and focused on problem-solving.", "Confident and willing to try new ideas."],
+                            q3_options: ["Nothing prevents it; I build flexibility into my planning schedule.", "I use the discussion as the main method of teaching.", "The activity itself requires student explanation."],
+                        },
+                    ]
+                },
+                task: "🌱 **Actionable Task:** Introduce the 'Think-Pair-Share' technique for one complex idea. Give students 30 seconds of quiet thinking time before asking them to talk.",
+            },
+            // ----------------------------------------------------
+            // CORE SCENARIO 4: Assessment for Application (User Q4)
+            // ----------------------------------------------------
+            {
+                id: 4,
+                title: "Assessment for Application",
+                coreArea: "Application & AFL",
+                prompt: "I check if students can **apply** what they learn (e.g., to a real-life scenario), not just remember it.",
+                diagnostic: {
+                    q1: "What is the **primary challenge** in designing tasks that check for application?",
+                    q2: "When you *do* check for application, what is your most common method?",
+                    q3: "If most students don't apply the concept correctly, what is your **immediate next step**?",
+                    
+                    options: [
+                        // Option Set A (1-2) - Low Application Check
+                        { 
+                            key: "a4", 
+                            q1_options: ["I don't have enough real-life examples prepared.", "I worry about interrupting the lesson flow with application checks.", "It takes too long to collect and review all the evidence."],
+                            q2_options: ["Asking a single recall question verbally.", "A simple True/False or multiple-choice question.", "Assigning a homework problem."],
+                            q3_options: ["Briefly repeating the explanation and trying a new example.", "Leaving it and hoping they understand it later.", "Assigning a lot of homework on the same topic."],
+                        },
+                        // Option Set B (3) - Moderate Application Check
+                        { 
+                            key: "b4", 
+                            q1_options: ["I worry that quick checks might distract students from the main activity.", "Ensuring the quick check genuinely tests *application*, not just memory.", "I can design the task but finding effective ways to record the results is hard."],
+                            q2_options: ["A short, one-sentence exit ticket.", "A quick hands-up check (e.g., thumbs-up/down).", "A small group discussion on a scenario."],
+                            q3_options: ["Using a different teaching method (e.g., a diagram or a role-play) to re-teach the concept.", "Pairing them with a high-performing student to get help.", "Stopping the class for a brief 5-minute review."],
+                        },
+                        // Option Set C (4-5) - High Application Check
+                        { 
+                            key: "c4", 
+                            q1_options: ["I do not find it challenging; I have quick, effective methods.", "The challenge is ensuring the check is tied to a real-life context.", "Scaling up the check for larger classes."],
+                            q2_options: ["A targeted mini-task where they have to *use* the concept in a new way.", "Observation checklist during an application-based group activity.", "An oral presentation where they explain the process."],
+                            q3_options: ["Instantly grouping students who struggled for targeted help while others move on.", "Giving them an immediate, simplified application problem to solve.", "Using the student error as a teachable moment for the whole class."],
+                        },
+                    ]
+                },
+                task: "🌱 **Actionable Task:** Design one 'What If' question for your next lesson. (Example: 'What if you forgot the formula? How would you solve the problem?').",
+            },
+            // ----------------------------------------------------
+            // CORE SCENARIO 5: Feedback Loop & Adjustment (User Q5)
+            // ----------------------------------------------------
+            {
+                id: 5,
+                title: "Feedback Loop & Adjustment",
+                coreArea: "Feedback Loop & Planning",
+                prompt: "I use what I learn from student responses/work to **adjust my next lesson's content, pace, or grouping**.",
+                diagnostic: {
+                    q1: "What prevents you from **consistently** adjusting your next lesson based on student feedback?",
+                    q2: "When you *do* adjust, what does that change **usually look like**?",
+                    q3: "How do you **track key insights** from student work to inform future planning?",
+                    
+                    options: [
+                        // Option Set A (1-2) - Low Adjustment
+                        { 
+                            key: "a5", 
+                            q1_options: ["The pressure of the syllabus and needing to move on to the next topic.", "I don't have a clear way to summarize all the student errors quickly.", "I rely on the end-of-unit test, not daily feedback."],
+                            q2_options: ["I slow down the pace or reteach the entire concept to the whole class.", "I assign extra homework to reinforce the idea.", "I ignore the result and continue with the original plan."],
+                            q3_options: ["I keep the key insights in my mind but don't formally record them.", "I throw away the papers after correcting them.", "I write general comments like 'Study More.'"],
+                        },
+                        // Option Set B (3) - Moderate Adjustment
+                        { 
+                            key: "b5", 
+                            q1_options: ["I struggle to quickly analyze student work and identify the single biggest misconception.", "It is difficult to create a new activity on the spot.", "I don't trust my ability to change the plan effectively."],
+                            q2_options: ["I add one or two extra practice problems the next day to reinforce the idea.", "I ask a few students what they struggled with and address that.", "I briefly mention the common mistake to the whole class."],
+                            q3_options: ["I write quick notes on the margin of my lesson plan, but they can be disorganized.", "I use a small, unstructured notebook for random notes.", "I tell myself I'll remember the feedback later."],
+                        },
+                        // Option Set C (4-5) - High Adjustment
+                        { 
+                            key: "c5", 
+                            q1_options: ["Nothing; I build flexibility into my planning schedule.", "The only issue is finding the best targeted resource for intervention.", "Ensuring the adjustment doesn't feel like punishment to the students."],
+                            q2_options: ["I instantly identify students who need support and plan a small-group intervention for them the next day.", "I use the error to revise the lesson's learning goal for the next class.", "I create a whole-class activity designed specifically to address the root mistake."],
+                            q3_options: ["I use a dedicated observation sheet or journal to track specific student names and errors.", "I keep a running list of student misconceptions on my computer.", "I color-code student work to quickly identify mastery levels."],
+                        },
+                    ]
+                },
+                task: "🌱 **Actionable Task:** After your next lesson, identify two students who struggled most and two students who excelled. Note one specific adjustment for each group for your next lesson.",
+            },
+            // ----------------------------------------------------
+            // CORE SCENARIO 6: Lesson Focus: Mastery vs. Coverage (Adapted from User Q6)
+            // ----------------------------------------------------
+            {
+                id: 6,
+                title: "Lesson Focus: Mastery vs. Coverage",
+                coreArea: "Mastery Focus",
+                prompt: "My main check for learning at the end of a lesson is whether students can **explain and apply** ideas in their own words, rather than just recalling facts or finishing content.",
+                diagnostic: {
+                    q1: "If you run out of time, which element are you most likely to **cut or rush**?",
+                    q2: "When assessing mastery, what is your **biggest concern** about students explaining ideas in their own words?",
+                    q3: "How do you define a **successful lesson**?",
+                    
+                    options: [
+                        // Option Set A (1-2) - Low Mastery Focus
+                        { 
+                            key: "a6", 
+                            q1_options: ["The summary and final Q&A session.", "The last section of the content I planned to cover.", "A planned application activity or case study."],
+                            q2_options: ["The quality of their language is poor.", "They will give the wrong answer and confuse others.", "It is too time-consuming to listen to everyone."],
+                            q3_options: ["If I finished the planned content.", "If students can recall key facts.", "If students were well-behaved and attentive."],
+                        },
+                        // Option Set B (3) - Moderate Mastery Focus
+                        { 
+                            key: "b6", 
+                            q1_options: ["The independent practice time for students.", "The introduction/warm-up activity.", "The extension activity for students who finish quickly."],
+                            q2_options: ["I worry that listening to explanations will reveal my own lack of understanding on a detail.", "They often miss the core technical vocabulary.", "They might only understand one small part of the concept."],
+                            q3_options: ["If students can explain ideas in their own words.", "If the class was interactive and engaging.", "If I prepared thoroughly for the lesson."],
+                        },
+                        // Option Set C (4-5) - High Mastery Focus
+                        { 
+                            key: "c6", 
+                            q1_options: ["Nothing; I stop the lesson where mastery is achieved, regardless of coverage.", "I never cut application or explanation time.", "The only thing I cut is non-essential content examples."],
+                            q2_options: ["I have no concerns; I use their explanations as my primary feedback.", "I worry about grading the quality of the explanation accurately.", "Ensuring the explanations lead to deeper questions."],
+                            q3_options: ["If students can use the learning in a real-life scenario.", "If they challenge my own ideas or offer new insights.", "If every student has demonstrable evidence of achieving the goal."],
+                        },
+                    ]
+                },
+                task: "🌱 **Actionable Task:** Identify the **one most important fact** and the **one most important application** for your next lesson. If you only have time for one, choose the application.",
+            },
+            // ----------------------------------------------------
+            // CORE SCENARIO 7: Targeted Support & Intervention (Adapted from User Q7)
+            // ----------------------------------------------------
+            {
+                id: 7,
+                title: "Targeted Support & Intervention",
+                coreArea: "Intervention Strategy",
+                prompt: "When a student struggles to learn something, I usually **identify whether the gap is in the concept or skill**, then give targeted support (e.g., peer-pairing or extra practice).",
+                diagnostic: {
+                    q1: "What is the **most common reason** a student struggles in your class?",
+                    q2: "When you pair a struggling student with a peer, what is the **peer's primary role**?",
+                    q3: "What prevents you from giving **targeted support** (small groups/individualized tasks) more often?",
+                    
+                    options: [
+                        // Option Set A (1-2) - Low Intervention
+                        { 
+                            key: "a7", 
+                            q1_options: ["They are generally unmotivated or distractible.", "They missed a foundational concept from a previous grade/unit.", "They don't read the instructions carefully."],
+                            q2_options: ["To give the struggling student the correct answer.", "To simply monitor their behavior.", "To show them how to complete the task."],
+                            q3_options: ["I worry about leaving the rest of the class unsupervised.", "I feel I need to move on to the next topic.", "I don't have enough suitable extra activities prepared."],
+                        },
+                        // Option Set B (3) - Moderate Intervention
+                        { 
+                            key: "b7", 
+                            q1_options: ["They lack confidence and give up easily.", "They struggle to translate the concept into application.", "They have difficulty understanding my initial explanation."],
+                            q2_options: ["To repeat my explanation using different words.", "To check the struggling student's work for errors.", "To work through the problem with the struggling student side-by-side."],
+                            q3_options: ["I struggle to quickly diagnose the exact source of the error (concept vs. skill).", "It requires too much energy and effort.", "I find it hard to manage the time effectively."],
+                        },
+                        // Option Set C (4-5) - High Intervention
+                        { 
+                            key: "c7", 
+                            q1_options: ["The task is too challenging, even for high-performing students.", "They struggle because the problem requires linking two different concepts.", "They need more complex materials or higher-level resources."],
+                            q2_options: ["To ask probing questions that lead the struggling student to the answer.", "To teach the concept using a different method or example.", "To assess whether the struggling student truly understands the solution."],
+                            q3_options: ["Nothing prevents me; targeted support is built into my lesson plan.", "The challenge is ensuring the extension tasks for the rest of the class are meaningful.", "I worry about accidentally making the struggling student feel singled out."],
+                        },
+                    ]
+                },
+                task: "🌱 **Actionable Task:** Identify one student you know is struggling. Write down your theory about *why* they struggle (concept gap or skill gap). Design one specific, 5-minute task to test your theory.",
+            },
+        ];
+
+        const results = {};
+        const reflectionsList = document.getElementById('reflections-list');
+        const summaryDiv = document.getElementById('wrap-up-summary');
+        const summaryText = document.getElementById('summary-text');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        
+        // Helper function to find reflection object by ID
+        const getReflectionById = (id) => REFLECTIONS.find(r => r.id === id);
+
+        // --- PROGRESS AND RENDERING FUNCTIONS ---
+
+        function renderReflections() {
+            reflectionsList.innerHTML = REFLECTIONS.map(r => {
+                // Determine initial visibility (only the first one is active)
+                const visibilityClass = r.id === 1 ? 'active' : 'hidden';
+
+                return `
+                <div id="wrapper-${r.id}" class="question-wrapper ${visibilityClass} space-y-8">
+                    <div id="reflection-${r.id}" class="reflection-card bg-white p-6 rounded-xl">
+                        <!-- Title and Prompt will be dynamically set here -->
+                        <div id="title-${r.id}"></div>
+                        <p id="prompt-${r.id}" class="text-gray-600 mb-4"></p>
+
+                        <div class="flex space-x-2 mb-4 justify-center sm:justify-start">
+                            ${[1, 2, 3, 4, 5].map(rating => `
+                                <button
+                                    data-id="${r.id}"
+                                    data-rating="${rating}"
+                                    onclick="handleRatingClick(this)"
+                                    class="rating-button w-10 h-10 rounded-full border-2 border-teal-400 text-teal-600 font-bold bg-teal-50 hover:bg-teal-100 focus:outline-none focus:ring-4 focus:ring-teal-300"
+                                >
+                                    ${rating}
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <!-- Diagnostic Questions Container -->
+                        <div id="diagnostic-container-${r.id}"></div>
+
+                        <!-- Adaptive Feedback Area -->
+                        <div id="feedback-${r.id}" class="feedback-area">
+                            <p class="text-violet-700 italic mb-3" id="follow-up-${r.id}"></p>
+                            <div class="task-box p-3 rounded-lg text-sm text-green-800 font-medium" id="task-${r.id}"></div>
+                            <button 
+                                data-id="${r.id}"
+                                onclick="moveToNextQuestion(this.getAttribute('data-id'))"
+                                id="feedback-continue-btn-${r.id}"
+                                class="mt-4 px-4 py-2 bg-cyan-600 text-white font-semibold rounded-lg hover:bg-cyan-700 transition duration-150 w-full"
+                            >
+                                Continue to Next Reflection &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
+            
+            // Render the first question content (Q1)
+            renderReflectionCard(1);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const completedCount = Object.keys(results).length;
+            const percentage = (completedCount / TOTAL_CORE_STEPS) * 100;
+
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${completedCount} of ${TOTAL_CORE_STEPS} reflections complete`;
+        }
+
+        // Renders the specific content for a single reflection card
+        function renderReflectionCard(id) {
+            const reflection = getReflectionById(id);
+            if (!reflection) return;
+
+            const formattedPrompt = reflection.prompt.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Render the core 1-5 rating section
+            document.getElementById(`title-${id}`).innerHTML = 
+                `<h3 class="text-xl font-semibold text-gray-800 mb-2">${reflection.title}</h3>`;
+            
+            document.getElementById(`prompt-${id}`).innerHTML = 
+                `${formattedPrompt} <span class="font-bold">(1 = Never, 5 = Always)</span>`;
+            
+            // Inject the diagnostic section (initially hidden)
+            document.getElementById(`diagnostic-container-${id}`).innerHTML = `
+                <div id="diagnostic-questions-${id}" class="diagnostic-options hidden space-y-4">
+                    <p class="text-gray-700 font-semibold mb-3 border-b pb-1">Great! Now, let's explore **why** you feel this way (select the best fit for each):</p>
+                    
+                    ${renderDiagnosticQuestion(id, 'q1', reflection.diagnostic.q1)}
+                    ${renderDiagnosticQuestion(id, 'q2', reflection.diagnostic.q2)}
+                    ${renderDiagnosticQuestion(id, 'q3', reflection.diagnostic.q3)}
+                    
+                </div>
+            `;
+        }
+
+        // Renders a single diagnostic question with its options (options array is now generated dynamically in handleRatingClick)
+        function renderDiagnosticQuestion(coreId, qKey, questionText) {
+            return `
+                <div class="space-y-2" data-diagnostic-q="${qKey}">
+                    <p class="text-gray-600 font-medium">${questionText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+                    <div class="space-y-1" id="options-${coreId}-${qKey}">
+                        <!-- Options will be dynamically injected here in handleRatingClick -->
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Renders the unique options for a single diagnostic question (Q1, Q2, or Q3)
+        function renderUniqueOptions(coreId, qKey, optionsArray) {
+            return optionsArray.map((text, index) => `
+                <div 
+                    data-core-id="${coreId}"
+                    data-q-key="${qKey}"
+                    data-q-index="${index}"
+                    data-text="${text.replace(/\"/g, "'")}"
+                    onclick="handleDiagnosticClick(this)"
+                    class="diagnostic-option p-3 rounded-lg cursor-pointer text-sm text-gray-700"
+                >
+                    ${text}
+                </div>
+            `).join('');
+        }
+
+
+        // Function to handle the core 1-5 rating click
+        function handleRatingClick(button) {
+            const id = parseInt(button.getAttribute('data-id'));
+            const rating = parseInt(button.getAttribute('data-rating'));
+            const reflection = getReflectionById(id);
+
+            if (!reflection) return;
+
+            // 1. Store core rating
+            if (!results[id]) {
+                results[id] = { coreRating: rating, diagnostic: {} };
+            } else {
+                results[id].coreRating = rating;
+            }
+
+            // 2. Highlight the current button
+            const container = button.closest('.reflection-card');
+            container.querySelectorAll('.rating-button').forEach(btn => {
+                btn.classList.remove('selected', 'bg-emerald-500', 'text-white');
+                btn.classList.add('bg-teal-50', 'text-teal-600');
+            });
+            button.classList.add('selected', 'bg-emerald-500', 'text-white');
+            button.classList.remove('bg-teal-50', 'text-teal-600');
+            
+            // 3. Determine which set of options to show (a, b, or c) for the diagnostic
+            let optionSetKey;
+            if (rating <= 2) {
+                optionSetKey = "a"; // Low score path
+            } else if (rating === 3) {
+                optionSetKey = "b"; // Medium score path
+            } else { // 4 or 5
+                optionSetKey = "c"; // High score path
+            }
+            
+            // Find the correct option set data (e.g., 'a1' or 'c2')
+            const optionData = reflection.diagnostic.options.find(o => o.key.startsWith(optionSetKey));
+
+            if (!optionData) {
+                console.error("Option data not found for key:", optionSetKey);
+                return;
+            }
+
+            // 4. Dynamically inject the unique options for each Q
+            const diagnosticQuestionsDiv = document.getElementById(`diagnostic-questions-${id}`);
+            
+            // --- FIX: Using the dedicated qX_options array for each question to ensure unique options ---
+            
+            // Q1 Options: Must use the options defined for q1 (q1_options array in data)
+            const q1Options = optionData.q1_options.sort(() => 0.5 - Math.random());
+            document.getElementById(`options-${id}-q1`).innerHTML = renderUniqueOptions(id, 'q1', q1Options);
+
+            // Q2 Options: Must use the options defined for q2 (q2_options array in data)
+            const q2Options = optionData.q2_options.sort(() => 0.5 - Math.random());
+            document.getElementById(`options-${id}-q2`).innerHTML = renderUniqueOptions(id, 'q2', q2Options);
+
+            // Q3 Options: Must use the options defined for q3 (q3_options array in data)
+            const q3Options = optionData.q3_options.sort(() => 0.5 - Math.random());
+            document.getElementById(`options-${id}-q3`).innerHTML = renderUniqueOptions(id, 'q3', q3Options);
+            
+            // Show the diagnostic questions
+            diagnosticQuestionsDiv.classList.remove('hidden');
+
+            // 5. Hide the feedback area until the diagnostic is complete
+            document.getElementById(`feedback-${id}`).classList.remove('visible');
+            
+            // 6. Set the diagnostic key and clear previous selections if the rating changed
+            results[id].diagnosticKey = optionSetKey;
+            results[id].diagnostic = {};
+
+            // 7. Reset diagnostic visual state
+            container.querySelectorAll('.diagnostic-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Scroll to the diagnostic questions
+            setTimeout(() => {
+                diagnosticQuestionsDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 100);
+        }
+
+        // Function to handle the diagnostic multiple choice click
+        function handleDiagnosticClick(optionDiv) {
+            const coreId = parseInt(optionDiv.getAttribute('data-core-id'));
+            const qKey = optionDiv.getAttribute('data-q-key');
+            const text = optionDiv.getAttribute('data-text');
+
+            const wrapper = document.getElementById(`reflection-${coreId}`);
+            
+            // 1. Clear selection for this specific question (q1, q2, or q3)
+            wrapper.querySelectorAll(`[data-q-key="${qKey}"]`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+
+            // 2. Select the clicked option
+            optionDiv.classList.add('selected');
+
+            // 3. Store the result
+            results[coreId].diagnostic[qKey] = text;
+            
+            // 4. Check if all 3 diagnostic questions are answered
+            if (Object.keys(results[coreId].diagnostic).length === 3) {
+                showFeedbackAndTask(coreId);
+            }
+        }
+
+        // Function to display the personalized feedback and task after diagnostic is complete
+        function showFeedbackAndTask(id) {
+            const reflection = getReflectionById(id);
+            const data = results[id];
+            
+            // 1. Determine the appropriate conversational feedback text based on the core rating and diagnostic answers
+            let followUpText;
+            const q1_reason = data.diagnostic.q1.toLowerCase();
+            const q2_reason = data.diagnostic.q2.toLowerCase();
+            const q3_reason = data.diagnostic.q3.toLowerCase();
+
+            if (data.coreRating <= 2) {
+                followUpText = `**I see you rated yourself low.** It takes courage to identify growth areas! You mentioned the **main barrier** is **${q1_reason}**. This is a great place to start. Let's focus on the actionable task below to give you a quick win and build confidence.`;
+            } else if (data.coreRating === 3) {
+                followUpText = `**That's a good effort.** You're aware of the need to improve. Since you noted that you sometimes struggle with **${q2_reason}**, we can now focus on formalizing your approach to make this habit consistent.`;
+            } else { // 4 or 5
+                followUpText = `**Wonderful! You're excelling.** It's clear you have strong systems in place. Since you're already doing great, and your classroom environment is often **${q3_reason}**, your next step should be moving this strength to the next level of complexity.`;
+            }
+
+            // Store generated feedback for summary
+            data.feedback = followUpText;
+            data.task = reflection.task;
+
+            // 2. Inject feedback and task
+            const followUpElement = document.getElementById(`follow-up-${id}`);
+            const taskElement = document.getElementById(`task-${id}`);
+            const feedbackDiv = document.getElementById(`feedback-${id}`);
+
+            // Apply markdown conversion
+            followUpElement.innerHTML = followUpText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); 
+            taskElement.innerHTML = reflection.task.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            // 3. Show the feedback area with animation
+            feedbackDiv.classList.add('visible');
+            updateProgress();
+        }
+
+
+        // Function to move to the next question (Core Step)
+        function moveToNextQuestion(currentIdString) {
+            const currentId = parseInt(currentIdString);
+            const currentWrapper = document.getElementById(`wrapper-${currentId}`);
+            
+            // Determine the next sequential core ID
+            const nextId = currentId + 1;
+
+            // Mark current card as completed and hide it
+            currentWrapper.classList.add('completed');
+            currentWrapper.classList.remove('active');
+            currentWrapper.classList.add('hidden');
+            
+            if (nextId <= TOTAL_CORE_STEPS) {
+                // Ensure the content for the next card is rendered
+                renderReflectionCard(nextId);
+
+                const nextWrapper = document.getElementById(`wrapper-${nextId}`);
+                
+                // Show the next question
+                nextWrapper.classList.remove('hidden');
+                nextWrapper.classList.add('active');
+                
+                // Scroll to the next question
+                setTimeout(() => {
+                    nextWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+
+            } else {
+                // End of core steps, show summary
+                showWrapUpSummary();
+            }
+        }
+
+
+        // --- SUMMARY FUNCTION (ADAPTIVE AND CONVERSATIONAL) ---
+
+        function showWrapUpSummary() {
+            let summaryContent = '';
+            let growthAreas = [];
+            
+            // 1. Introduction based on overall performance
+            const totalScore = Object.values(results).reduce((sum, data) => sum + data.coreRating, 0);
+            const avgScore = totalScore / TOTAL_CORE_STEPS;
+
+            if (avgScore >= 4.0) {
+                summaryContent += `
+                    **Excellent Work!** Your reflection shows that you already integrate **strong Competency-Based Education (CBE)** habits into your planning. You're a natural reflective practitioner and a fantastic asset to your school. Let's look at how you can deepen this mastery.
+                    <br><hr>
+                `;
+            } else if (avgScore >= 3.0) {
+                summaryContent += `
+                    **Great Start!** Your honest self-assessment shows a solid foundation with clear potential for growth. You have many good habits already, but let's focus on formalizing them to achieve consistent CBE success.
+                    <br><hr>
+                `;
+            } else {
+                summaryContent += `
+                    **Let's Get Focused!** Thank you for your honest assessment. Identifying areas for growth is the most important step. We've pinpointed foundational areas where focusing your energy will give you the biggest, quickest reward.
+                    <br><hr>
+                `;
+            }
+
+            summaryContent += `
+                <h3 class="text-xl font-bold text-gray-800 mt-4 mb-2">💡 Your Personalized Takeaways:</h3>
+                <p class="mb-4">Here is a summary of your self-assessment, combining your **core habit** with your **diagnostic reasons**:</p>
+                <div class="space-y-4">
+            `;
+            
+            // 2. Detailed Conversational Outline for each step
+            for (let i = 1; i <= TOTAL_CORE_STEPS; i++) {
+                const reflection = getReflectionById(i);
+                const data = results[i];
+
+                let category;
+                let insight;
+
+                const q1 = data.diagnostic.q1.toLowerCase();
+                const q2 = data.diagnostic.q2.toLowerCase();
+                const q3 = data.diagnostic.q3.toLowerCase();
+
+                if (data.coreRating >= 4) {
+                    category = 'Strength';
+                    insight = `You've demonstrated a **strong habit** here. You noted that you excel partly because you don't find it challenging to **${q1}** and your classroom environment is often **${q3}**. To push further, focus on extending your high-level planning.`;
+                } else if (data.coreRating === 3) {
+                    category = 'Development Area';
+                    insight = `This is a **key area for growth**. You're close, but you mentioned the primary challenge is **${q2}**. Formalizing this process will help you bridge the gap between 'sometimes' and 'always.'`;
+                    growthAreas.push(reflection.coreArea);
+                } else {
+                    category = 'Foundational Need';
+                    insight = `This is a **foundational need**. Your main barrier appears to be **${q1}**. Start with the simplest suggested task from this scenario to build confidence and establish a strong CBE routine.`;
+                    growthAreas.push(reflection.coreArea);
+                }
+
+                summaryContent += `
+                    <div class="p-3 rounded-lg ${category === 'Strength' ? 'bg-emerald-50 border-emerald-300' : 'bg-red-50 border-red-300'} border">
+                        <p class="font-semibold text-lg ${category === 'Strength' ? 'text-emerald-800' : 'text-red-800'}">
+                            ${reflection.title} (${category})
+                        </p>
+                        <p class="text-sm text-gray-700 mt-1">${insight}</p>
+                    </div>
+                `;
+            }
+            
+            summaryContent += `</div>`;
+            
+            // 3. Final Call to Action
+            if (growthAreas.length > 0) {
+                summaryContent += `
+                    <h3 class="text-xl font-bold text-gray-800 mt-6 mb-2">🎯 Next Steps: Pick Your Battle</h3>
+                    <p class="mb-4">
+                        Based on your deep dive, you have foundational work in **${growthAreas[0]}** (e.g., Student Agency or Clarity). We recommend choosing one of the actionable tasks from the scenarios you rated lowest and committing to trying it *tomorrow*.
+                    </p>
+                    <p class="font-semibold text-gray-700">
+                        Remember: CBE mastery is built one small, intentional step at a time. Pick one task and make it a habit!
+                    </p>
+                `;
+            }
+
+            // Apply markdown conversion to the full summary content
+            const fullSummaryHTML = summaryContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            summaryText.innerHTML = fullSummaryHTML;
+            
+            // Animate the summary box reveal
+            summaryDiv.style.opacity = '0';
+            summaryDiv.classList.remove('hidden');
+            setTimeout(() => {
+                summaryDiv.style.transition = 'opacity 1s ease-in';
+                summaryDiv.style.opacity = '1';
+                // Scroll to the summary
+                summaryDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        // Initialize the flow on load
+        window.onload = renderReflections;
+    </script>
+</body>
+</html>
