@@ -57,7 +57,31 @@
             background-color: #d1fae5; /* Light Green */
             border-color: #34d399; /* Medium Green */
             font-weight: 600;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
+        /* Style for the wrappers of the diagnostic questions */
+        .diagnostic-q-wrapper {
+            transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out, padding 0.5s;
+            overflow: hidden;
+            max-height: 1000px;
+        }
+        /* The initial 'hidden' state for diagnostic questions */
+        .diagnostic-q-wrapper.initial-hidden {
+             /* Max-height is used to manage visibility during sequential reveal */
+            max-height: 0; 
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+        }
+        /* When an option is answered, make the question read-only and slightly faded */
+        .diagnostic-q-wrapper.answered {
+            pointer-events: none;
+            opacity: 0.8;
+            margin-bottom: 1rem; 
+            border-bottom: 1px dashed #e5e7eb;
+            padding-bottom: 1rem;
+        }
+
 
         .task-box {
             background-color: #f0fdf4; /* Lightest Mint Green background */
@@ -194,31 +218,31 @@
                 type: "rating",
                 prompt: "I start planning my lessons with a clear idea of what I want students to be able to **do** by the end.",
                 diagnostic: {
-                    q1: "What is the **main barrier** to establishing a clear learning goal before you start planning?",
+                    q1: "What is the **biggest challenge** in setting a clear learning goal before you plan?",
                     q2: "When you start planning a new lesson, where do you **usually focus your energy first**?",
-                    q3: "How confident are you in translating broad curriculum topics into **student-friendly learning outcomes**?",
+                    q3: "How often do you struggle with **keeping activities connected** across a full unit?",
                     
                     options: [
                         // Option Set A (1-2) - Low Clarity
                         { 
                             key: "a1", 
-                            q1_options: ["I feel rushed to move on, so I start with the first activity.", "I find the curriculum goals too vague to be useful for daily planning.", "I prefer being flexible and seeing where the lesson goes."],
-                            q2_options: ["Reading the next page/section in the textbook.", "Finding appropriate resources or materials.", "Reviewing past assessment results from the previous unit."],
-                            q3_options: ["Not confident; my goals are often unclear to students too.", "I can do it for knowledge but not for skills (e.g., critical thinking).", "I don't think to share the goal with students beforehand."],
+                            q1_options: ["I feel rushed, so I start with the first activity.", "Curriculum goals are too vague for daily planning.", "I prefer being flexible and seeing where the lesson goes."],
+                            q2_options: ["Reading the next page/section in the textbook.", "Finding teaching resources or materials.", "Reviewing past test results from the previous unit."],
+                            q3_options: ["My activities often drift from the main goal.", "I rarely check how activities in the unit fit together.", "I find it hard to fit skills (like critical thinking) into my lessons."],
                         },
                         // Option Set B (3) - Moderate Clarity
                         { 
                             key: "b1", 
-                            q1_options: ["It takes too much time and preparation.", "The topic is complex, and I'm unsure which concept to prioritize.", "I usually check the curriculum goal, but don't refine it into a single student-friendly outcome."],
-                            q2_options: ["Drafting the main activity or worksheet.", "Planning the structure of the introduction and conclusion.", "Creating an end-of-lesson assessment tool (like an exit ticket)."],
-                            q3_options: ["Moderately confident; I can usually articulate the goal, but not always the criteria.", "I can write the goal, but struggle to keep all activities aligned to it.", "I struggle to write goals that involve 'application' or 'analysis.'"],
+                            q1_options: ["It takes too much time and preparation.", "The topic is complex, and I'm unsure which part to prioritize.", "I check the main goal, but don't refine it into a simple student outcome."],
+                            q2_options: ["Drafting the main activity or worksheet.", "Planning the structure of the introduction and conclusion.", "Creating an end-of-lesson assessment (like an exit ticket)."],
+                            q3_options: ["I usually align activities, but not all of them.", "I sometimes forget to link activities to the unit's bigger outcome.", "I find it hard to connect 'application' skills across multiple lessons."],
                         },
                         // Option Set C (4-5) - High Clarity
                         { 
                             key: "c1", 
-                            q1_options: ["Nothing is a barrier; defining the goal is the first step.", "The only difficulty is finding time to invite guest speakers.", "It requires extra planning time, but the payoff is worth it."],
-                            q2_options: ["Writing the measurable learning goal on the board or in my lesson plan.", "Designing the quick formative check (AFL) that ends the lesson.", "Planning for differentiation for both struggling and excelling students."],
-                            q3_options: ["Highly confident; this is a non-negotiable part of my planning.", "I regularly source materials directly from the community.", "I design activities that explicitly celebrate local heritage."],
+                            q1_options: ["Nothing is a barrier; defining the goal is the first step.", "The complexity of coordinating assessment across a long-term unit.", "It requires extra planning time, but the payoff is worth it."],
+                            q2_options: ["Writing the measurable learning goal on the board or in my lesson plan.", "Designing the quick check for student understanding that ends the lesson.", "Planning for both struggling and excelling students."],
+                            q3_options: ["Hardly ever; my lessons are clearly sequenced and linked.", "Only when introducing complex, interdisciplinary topics.", "When I forget to write down my learning outcomes for the unit."],
                         },
                     ]
                 },
@@ -234,22 +258,23 @@
                 type: "rating",
                 prompt: "I plan activities that help students **practice skills** like problem-solving, communication, or critical thinking, not just memorize facts.",
                 diagnostic: {
-                    q1: "What is the **main reason** you sometimes rely on memory-based tasks (recall) over skill-based tasks (analysis)?",
-                    q2: "When designing a skill-based activity, what part of the preparation do you find **most challenging**?",
-                    q3: "How do you define **'problem-solving'** in the context of your primary subject?",
+                    q1: "What is the **main reason** you sometimes use memory tasks (recall) instead of skill tasks (analysis)?",
+                    q2: "When designing a skill task, what part of the preparation do you find **most challenging**?",
+                    // High Score Q3: Pushes for secondary skill focus
+                    q3: "If you are confident in teaching problem-solving, which **secondary skill** do you want to focus on this term?",
                     
                     options: [
                         // Option Set A (1-2) - Low Skill Focus
                         { 
                             key: "a2", 
-                            q1_options: ["It's easier to assess recall tasks.", "I worry skill-based tasks take up too much lesson time.", "The textbook only provides recall questions."],
-                            q2_options: ["Creating a situation that genuinely requires problem-solving.", "Finding time to listen to every small group and provide individualized feedback.", "Creating a clear grading rubric for soft skills."],
+                            q1_options: ["It's easier to grade tasks based on memory.", "I worry skill tasks take up too much lesson time.", "The textbook only provides recall questions."],
+                            q2_options: ["Creating a situation that truly requires problem-solving.", "Finding time to listen to every small group and give feedback.", "Creating a clear grading rubric for soft skills."],
                             q3_options: ["Solving the problem correctly using the steps taught.", "Finding the right answer.", "Recalling the steps needed to solve a specific problem type."],
                         },
                         // Option Set B (3) - Moderate Skill Focus
                         { 
                             key: "b2", 
-                            q1_options: ["I use skill tasks sometimes, but only for simple topics.", "I struggle to link skill tasks directly to the curriculum outcomes.", "My students lack the confidence for open-ended challenges."],
+                            q1_options: ["I use skill tasks sometimes, but only for simple topics.", "I struggle to link skill tasks directly to the main lesson outcome.", "My students lack the confidence for open-ended challenges."],
                             q2_options: ["Ensuring the activity is challenging enough for advanced students.", "Setting up the classroom for effective group discussion.", "Translating the skill into student-friendly instructions."],
                             q3_options: ["Applying the concept to a new, but simple scenario.", "Breaking down a complex task into smaller steps.", "Working effectively with a partner."],
                         },
@@ -257,8 +282,8 @@
                         { 
                             key: "c2", 
                             q1_options: ["I believe skills are more important than recall for long-term mastery.", "I only use recall tasks as a short warm-up activity.", "I find skill tasks more engaging to teach."],
-                            q2_options: ["Ensuring all materials needed for the complex task are ready.", "Preparing extension challenges for students who finish the main task quickly.", "Managing the productive chaos that comes with active skill practice."],
-                            q3_options: ["Designing a new process or solution to an unknown problem.", "Debating different perspectives on a topic.", "Critically evaluating information sources."],
+                            q2_options: ["Ensuring all materials needed for the complex task are ready.", "Preparing extension challenges for students who finish the main task quickly.", "Managing the 'active discussion noise' that comes with skill practice."],
+                            q3_options: ["Critical thinking (evaluating sources).", "Communication (structured debate/presentation).", "Collaboration (leading a group task)."],
                         },
                     ]
                 },
@@ -272,11 +297,12 @@
                 title: "Student Agency & Voice",
                 coreArea: "Student Agency",
                 type: "rating",
-                prompt: "My students are actively engaged in lessons (asking questions, explaining answers, applying knowledge) without always needing to be prompted by me.",
+                prompt: "My students are actively engaged (asking questions, explaining answers) without always needing me to prompt them.",
                 diagnostic: {
                     q1: "What do you feel is the **main barrier** when inviting students to explain or ask questions?",
                     q2: "How would you describe the general **emotional tone** of your classroom during a lesson?",
-                    q3: "What prevents you from allowing more time for student-led discussions or Q&A?",
+                    // High Score Q3: Focuses on equity of voice
+                    q3: "What stops you from setting up a system where **every student gets to speak**?",
                     
                     options: [
                         // Option Set A (1-2) - Low Agency
@@ -284,21 +310,21 @@
                             key: "a3", 
                             q1_options: ["Fear of failure or being corrected publicly.", "They don't know *how* to explain their thinking yet.", "Language barrier or shyness."],
                             q2_options: ["Quiet and disciplined, but passive/reserved.", "Restless and easily distracted.", "Focused on individual competition."],
-                            q3_options: ["I worry it will take up too much time needed for the current lesson.", "I worry the discussion will stray from the topic.", "I prefer giving my own detailed explanation."],
+                            q3_options: ["I worry it will take up too much time.", "I worry the discussion will stray from the topic.", "I prefer giving my own detailed explanation."],
                         },
                         // Option Set B (3) - Moderate Agency
                         { 
                             key: "b3", 
-                            q1_options: ["They need specific prompts to know exactly how to start sharing.", "They only talk when prompted directly.", "Lack of clear consequence for non-participation."],
+                            q1_options: ["They need specific sentence starters to know exactly how to share.", "They only talk when prompted directly.", "Lack of clear consequence for non-participation."],
                             q2_options: ["Generally cooperative, but easily distracted or passive.", "Active in small bursts, then return to quiet work.", "Focused on getting the right answer quickly."],
-                            q3_options: ["The topic is complex, and I'm unsure which concept to prioritize.", "I sometimes forget to factor in time for questions.", "It's challenging to manage large group discussions."],
+                            q3_options: ["The topic is complex, and I'm unsure which concept to prioritize.", "I sometimes forget to add time for questions.", "It's challenging to manage large group discussions."],
                         },
                         // Option Set C (4-5) - High Agency
                         { 
                             key: "c3", 
                             q1_options: ["Nothing holds them back; managing time/noise from participation is the challenge.", "They prefer explaining to me, not to peers.", "They often rush their explanations."],
                             q2_options: ["Energetic and curious, sometimes leading to productive chaos.", "Challenged and focused on problem-solving.", "Confident and willing to try new ideas."],
-                            q3_options: ["Nothing prevents it; I build flexibility into my planning schedule.", "I use the discussion as the main method of teaching.", "The activity itself requires student explanation."],
+                            q3_options: ["Nothing prevents it; I build flexibility into my planning schedule.", "I worry that only the most confident students dominate the conversation.", "I find it hard to track participation equally across large groups."],
                         },
                     ]
                 },
@@ -314,22 +340,23 @@
                 type: "rating",
                 prompt: "I check if students can **apply** what they learn (e.g., to a real-life scenario), not just remember it.",
                 diagnostic: {
-                    q1: "What is the **primary challenge** in designing tasks that check for application?",
+                    q1: "What is the **primary difficulty** in creating tasks that check for real-life application?",
                     q2: "When you *do* check for application, what is your most common method?",
-                    q3: "If most students don't apply the concept correctly, what is your **immediate next step**?",
+                    // High Score Q3: Focuses on scaling the check for equity
+                    q3: "How do you ensure your application checks are **easy to manage for a large class**?",
                     
                     options: [
                         // Option Set A (1-2) - Low Application Check
                         { 
                             key: "a4", 
-                            q1_options: ["I don't have enough real-life examples prepared.", "I worry about interrupting the lesson flow with application checks.", "It takes too long to collect and review all the evidence."],
+                            q1_options: ["I don't have enough real-life examples prepared.", "I worry about interrupting the lesson flow with checks.", "It takes too long to collect and review all the answers."],
                             q2_options: ["Asking a single recall question verbally.", "A simple True/False or multiple-choice question.", "Assigning a homework problem."],
                             q3_options: ["Briefly repeating the explanation and trying a new example.", "Leaving it and hoping they understand it later.", "Assigning a lot of homework on the same topic."],
                         },
                         // Option Set B (3) - Moderate Application Check
                         { 
                             key: "b4", 
-                            q1_options: ["I worry that quick checks might distract students from the main activity.", "Ensuring the quick check genuinely tests *application*, not just memory.", "I can design the task but finding effective ways to record the results is hard."],
+                            q1_options: ["I worry that quick checks might distract students from the main activity.", "Ensuring the quick check genuinely tests *application*, not just memory.", "I can design the task but recording the results is hard."],
                             q2_options: ["A short, one-sentence exit ticket.", "A quick hands-up check (e.g., thumbs-up/down).", "A small group discussion on a scenario."],
                             q3_options: ["Using a different teaching method (e.g., a diagram or a role-play) to re-teach the concept.", "Pairing them with a high-performing student to get help.", "Stopping the class for a brief 5-minute review."],
                         },
@@ -354,9 +381,10 @@
                 type: "rating",
                 prompt: "I use what I learn from student responses/work to **adjust my next lesson's content, pace, or grouping**.",
                 diagnostic: {
-                    q1: "What prevents you from **consistently** adjusting your next lesson based on student feedback?",
+                    q1: "What prevents you from **always** adjusting your next lesson based on student feedback?",
                     q2: "When you *do* adjust, what does that change **usually look like**?",
-                    q3: "How do you **track key insights** from student work to inform future planning?",
+                    // High Score Q3: Focuses on closing the loop
+                    q3: "What is your method for checking if your **adjustment actually worked**?",
                     
                     options: [
                         // Option Set A (1-2) - Low Adjustment
@@ -369,16 +397,16 @@
                         // Option Set B (3) - Moderate Adjustment
                         { 
                             key: "b5", 
-                            q1_options: ["I struggle to quickly analyze student work and identify the single biggest misconception.", "It is difficult to create a new activity on the spot.", "I don't trust my ability to change the plan effectively."],
+                            q1_options: ["I struggle to quickly find the single biggest misconception.", "It is difficult to create a new activity on the spot.", "I don't trust my ability to change the plan effectively."],
                             q2_options: ["I add one or two extra practice problems the next day to reinforce the idea.", "I ask a few students what they struggled with and address that.", "I briefly mention the common mistake to the whole class."],
                             q3_options: ["I write quick notes on the margin of my lesson plan, but they can be disorganized.", "I use a small, unstructured notebook for random notes.", "I tell myself I'll remember the feedback later."],
                         },
-                        // Option Set C (4-5) - High Adjustment
+                        // Option Set C (4-5) - High Adjustment (UPDATED OPTIONS)
                         { 
                             key: "c5", 
                             q1_options: ["Nothing; I build flexibility into my planning schedule.", "The only issue is finding the best targeted resource for intervention.", "Ensuring the adjustment doesn't feel like punishment to the students."],
                             q2_options: ["I instantly identify students who need support and plan a small-group intervention for them the next day.", "I use the error to revise the lesson's learning goal for the next class.", "I create a whole-class activity designed specifically to address the root mistake."],
-                            q3_options: ["I use a dedicated observation sheet or journal to track specific student names and errors.", "I keep a running list of student misconceptions on my computer.", "I color-code student work to quickly identify mastery levels."],
+                            q3_options: ["I use a notebook or sheet to record specific student names and errors.", "I follow up the next day to measure if the adjustment worked.", "I adjust the next day's learning goal based on the feedback."],
                         },
                     ]
                 },
@@ -546,9 +574,9 @@
                     <div id="diagnostic-questions-${id}" class="diagnostic-options hidden space-y-4">
                         <p class="text-gray-700 font-semibold mb-3 border-b pb-1">Great! Now, let's explore **why** you feel this way (select the best fit for each):</p>
                         
-                        ${renderDiagnosticQuestion(id, 'q1', reflection.diagnostic.q1)}
-                        ${renderDiagnosticQuestion(id, 'q2', reflection.diagnostic.q2)}
-                        ${renderDiagnosticQuestion(id, 'q3', reflection.diagnostic.q3)}
+                        ${renderDiagnosticQuestion(id, 'q1', reflection.diagnostic.q1, true)}
+                        ${renderDiagnosticQuestion(id, 'q2', reflection.diagnostic.q2, true)}
+                        ${renderDiagnosticQuestion(id, 'q3', reflection.diagnostic.q3, true)}
                         
                     </div>
                 `;
@@ -556,9 +584,10 @@
         }
 
         // Renders a single diagnostic question with its options (for type: 'rating')
-        function renderDiagnosticQuestion(coreId, qKey, questionText) {
+        function renderDiagnosticQuestion(coreId, qKey, questionText, initiallyHidden = false) {
+            const hiddenClass = initiallyHidden ? 'initial-hidden' : '';
             return `
-                <div class="space-y-2" data-diagnostic-q="${qKey}">
+                <div class="space-y-2 diagnostic-q-wrapper ${hiddenClass}" data-diagnostic-q="${qKey}" id="q-wrapper-${coreId}-${qKey}">
                     <p class="text-gray-600 font-medium">${questionText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
                     <div class="space-y-1" id="options-${coreId}-${qKey}">
                         <!-- Options will be dynamically injected here in handleRatingClick -->
@@ -627,21 +656,28 @@
                 return;
             }
 
-            // 4. Dynamically inject the unique options for each Q
+            // 4. Dynamically inject the unique options for Q1
             const diagnosticQuestionsDiv = document.getElementById(`diagnostic-questions-${id}`);
             
+            // Reset visibility of all diagnostic questions and remove answered class
+            container.querySelectorAll('.diagnostic-q-wrapper').forEach(wrapper => {
+                wrapper.classList.add('initial-hidden');
+                wrapper.classList.remove('answered');
+            });
+
             // Using the dedicated qX_options array for each question to ensure unique options
             const q1Options = optionData.q1_options.sort(() => 0.5 - Math.random());
             document.getElementById(`options-${id}-q1`).innerHTML = renderUniqueOptions(id, 'q1', q1Options);
 
-            const q2Options = optionData.q2_options.sort(() => 0.5 - Math.random());
-            document.getElementById(`options-${id}-q2`).innerHTML = renderUniqueOptions(id, 'q2', q2Options);
-
-            const q3Options = optionData.q3_options.sort(() => 0.5 - Math.random());
-            document.getElementById(`options-${id}-q3`).innerHTML = renderUniqueOptions(id, 'q3', q3Options);
+            // Store options data for Q2 and Q3 for later use
+            results[id].q2OptionsData = optionData.q2_options.sort(() => 0.5 - Math.random());
+            results[id].q3OptionsData = optionData.q3_options.sort(() => 0.5 - Math.random());
             
-            // Show the diagnostic questions
+            // Show the diagnostic questions container
             diagnosticQuestionsDiv.classList.remove('hidden');
+
+            // Show Q1 immediately
+            document.getElementById(`q-wrapper-${id}-q1`).classList.remove('initial-hidden');
 
             // 5. Hide the feedback area until the diagnostic is complete
             document.getElementById(`feedback-${id}`).classList.remove('visible');
@@ -664,13 +700,13 @@
         // Function to handle the diagnostic multiple choice click (for type: 'rating')
         function handleDiagnosticClick(optionDiv) {
             const coreId = parseInt(optionDiv.getAttribute('data-core-id'));
-            const qKey = optionDiv.getAttribute('data-q-key');
+            const currentQKey = optionDiv.getAttribute('data-q-key');
             const text = optionDiv.getAttribute('data-text');
 
             const wrapper = document.getElementById(`reflection-${coreId}`);
             
-            // 1. Clear selection for this specific question (q1, q2, or q3)
-            wrapper.querySelectorAll(`[data-q-key="${qKey}"]`).forEach(opt => {
+            // 1. Clear selection for this specific question
+            wrapper.querySelectorAll(`[data-q-key="${currentQKey}"]`).forEach(opt => {
                 opt.classList.remove('selected');
             });
 
@@ -678,10 +714,31 @@
             optionDiv.classList.add('selected');
 
             // 3. Store the result
-            results[coreId].diagnostic[qKey] = text;
+            results[coreId].diagnostic[currentQKey] = text;
             
-            // 4. Check if all 3 diagnostic questions are answered
-            if (Object.keys(results[coreId].diagnostic).length === 3) {
+            // Mark current question as answered (persists visible, read-only)
+            document.getElementById(`q-wrapper-${coreId}-${currentQKey}`).classList.add('answered');
+
+            // 4. Determine next step (sequential display)
+            const nextQKey = { 'q1': 'q2', 'q2': 'q3' }[currentQKey];
+            
+            if (nextQKey) {
+                // Inject and show next question
+                const nextQWrapper = document.getElementById(`q-wrapper-${coreId}-${nextQKey}`);
+                const nextOptionsDataKey = nextQKey === 'q2' ? 'q2OptionsData' : 'q3OptionsData';
+                
+                document.getElementById(`options-${coreId}-${nextQKey}`).innerHTML = renderUniqueOptions(coreId, nextQKey, results[coreId][nextOptionsDataKey]);
+
+                // Reveal the next question in the list
+                nextQWrapper.classList.remove('initial-hidden');
+                
+                // Scroll to the next question
+                setTimeout(() => {
+                    nextQWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 50);
+
+            } else {
+                // All 3 questions are answered (currentQKey === 'q3')
                 showFeedbackAndTask(coreId);
             }
         }
@@ -751,7 +808,7 @@
                 const choice = data.diagnostic.q1;
                 const coreArea = reflection.coreArea;
                 
-                if (choice.includes("explain") || choice.includes("real-life") || choice.includes("targeted support") || choice.includes("extra time")) {
+                if (choice.includes("explain") || choice.includes("real-life") || choice.includes("targeted support") || choice.includes("extra time") || choice.includes("concept or skill")) {
                     followUpText = `**That shows real CBE focus!** You chose **'${choice}'** as your primary action. This indicates a focus on **${coreArea}** and adjusting your practice to student needs. That's a strong habit—now let's find a way to make it even more systematic.`;
                 } else if (choice.includes("Move on") || choice.includes("Repeat the same explanation") || choice.includes("planned content") || choice.includes("recall key facts")) {
                     followUpText = `**Thank you for your honest answer.** You chose **'${choice}'**. This approach is common when time is tight, but it keeps the focus on coverage (syllabus) rather than **${coreArea}**. Let's use the task below to shift your focus to student mastery.`;
